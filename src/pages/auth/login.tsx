@@ -1,5 +1,9 @@
 import { Helmet } from 'react-helmet-async'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+
 export const Login = () => {
   return (
     <div>
@@ -12,7 +16,17 @@ export const Login = () => {
           <p className="text-sm text-muted-foreground">Acompanhe suas vendas</p>
         </div>
 
-        <form className="flex flex-col"></form>
+        <form className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email">email:</Label>
+            <Input id="email" type="email" />
+          </div>
+          <div className="mb-5">
+            <Label htmlFor="password">senha:</Label>
+            <Input id="password" type="password" />
+          </div>
+          <Button className="w-full">Acessar</Button>
+        </form>
       </div>
     </div>
   )
