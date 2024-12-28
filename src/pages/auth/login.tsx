@@ -1,10 +1,27 @@
 import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
+const loginForm = z.object({
+  email: z.string().email(),
+  password: z.string(),
+})
+
+type LoginForm = z.infer<typeof loginForm>
+
 export const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<LoginForm>()
+  async function handleLogin(data: LoginForm) {
+    console.log(data)
+  }
   return (
     <div>
       <Helmet title="Login" />
@@ -16,16 +33,18 @@ export const Login = () => {
           <p className="text-sm text-muted-foreground">Acompanhe suas vendas</p>
         </div>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit(handleLogin)}>
           <div className="space-y-2">
             <Label htmlFor="email">email:</Label>
-            <Input id="email" type="email" />
+            <Input id="email" type="email" {...register('email')} />
           </div>
           <div className="mb-5">
             <Label htmlFor="password">senha:</Label>
-            <Input id="password" type="password" />
+            <Input id="password" type="password" {...register('password')} />
           </div>
-          <Button className="w-full">Acessar</Button>
+          <Button disabled={isSubmitting} className="w-full">
+            Acessar
+          </Button>
         </form>
       </div>
     </div>
