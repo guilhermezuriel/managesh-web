@@ -8,18 +8,21 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 const subscribeForm = z.object({
+  storeName: z.string().min(1),
+  managerName: z.string().min(1),
   email: z.string().email(),
+  phone: z.string(),
 })
 
 type SubscribeForm = z.infer<typeof subscribeForm>
 
-export const Login = () => {
+export const Subscribe = () => {
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<SubscribeForm>()
-  async function handleLogin(data: SubscribeForm) {
+  async function handleSubscribe(data: SubscribeForm) {
     console.log(data)
     try {
       toast.success('It was send to your email a link to authenticate')
@@ -29,19 +32,31 @@ export const Login = () => {
   }
   return (
     <div>
-      <Helmet title="Login" />
+      <Helmet title="Subscribe" />
       <div className="flex w-[350px] flex-col justify-center gap-6">
         <div className="flex flex-col gap-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">
-            Acess dashboard
+            Subscripe your store !
           </h1>
           <p className="text-sm text-muted-foreground">Track your sales!</p>
         </div>
 
-        <form className="space-y-4" onSubmit={handleSubmit(handleLogin)}>
+        <form className="space-y-4" onSubmit={handleSubmit(handleSubscribe)}>
           <div className="space-y-2">
-            <Label htmlFor="email">email:</Label>
+            <Label htmlFor="storeName">Your store name</Label>
+            <Input id="storeName" type="text" {...register('storeName')} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="managerName">Your name</Label>
+            <Input id="managerName" type="text" {...register('managerName')} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">Your email</Label>
             <Input id="email" type="email" {...register('email')} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">Your phone</Label>
+            <Input id="phone" type="text" {...register('phone')} />
           </div>
           <Button disabled={isSubmitting} className="w-full">
             Acessar
