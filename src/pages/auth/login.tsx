@@ -44,7 +44,7 @@ export const Login = () => {
             <Input id="email" type="email" {...register('email')} />
           </div>
           <Button disabled={isSubmitting} className="w-full">
-            Acessar
+            Login
           </Button>
         </form>
       </div>

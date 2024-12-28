@@ -36,9 +36,11 @@ export const Subscribe = () => {
       <div className="flex w-[350px] flex-col justify-center gap-6">
         <div className="flex flex-col gap-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">
-            Subscripe your store !
+            Create a free account
           </h1>
-          <p className="text-sm text-muted-foreground">Track your sales!</p>
+          <p className="text-sm text-muted-foreground">
+            Subscripe your store !
+          </p>
         </div>
 
         <form className="space-y-4" onSubmit={handleSubmit(handleSubscribe)}>
@@ -58,8 +60,21 @@ export const Subscribe = () => {
             <Label htmlFor="phone">Your phone</Label>
             <Input id="phone" type="text" {...register('phone')} />
           </div>
+          <div className="flex items-center gap-2">
+            <input type="checkbox" />
+            <span>
+              Agreed with{' '}
+              <u>
+                <a href="">terms</a>
+              </u>{' '}
+              and{' '}
+              <u>
+                <a href="">privacy</a>
+              </u>
+            </span>
+          </div>
           <Button disabled={isSubmitting} className="w-full">
-            Acessar
+            Subscribe
           </Button>
         </form>
       </div>
