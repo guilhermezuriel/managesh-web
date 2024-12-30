@@ -69,23 +69,21 @@ export const Subscribe = () => {
               <Label htmlFor="phone">Your phone</Label>
               <Input id="phone" type="text" {...register('phone')} />
             </div>
-            <div className="flex items-center gap-2">
-              <input type="checkbox" />
-              <span>
-                Agreed with{' '}
-                <u>
-                  <a href="">terms</a>
-                </u>{' '}
-                and{' '}
-                <u>
-                  <a href="">privacy</a>
-                </u>
-              </span>
-            </div>
+
             <Button disabled={isSubmitting} className="w-full">
               Subscribe
             </Button>
           </form>
+          <p className="px-6 text-center text-sm leading-relaxed text-muted-foreground">
+            Upon completition, you agree with our{' '}
+            <a href="" className="underline">
+              terms
+            </a>{' '}
+            and{' '}
+            <a href="" className="underline">
+              privacy
+            </a>
+          </p>
         </div>
       </div>
     </>
