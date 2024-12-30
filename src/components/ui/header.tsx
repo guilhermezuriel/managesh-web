@@ -2,6 +2,7 @@ import { Separator } from '@radix-ui/react-separator'
 import { ClipboardPenLine, Coffee, Home } from 'lucide-react'
 
 import { ThemeToggle } from '../theme/theme-toggle'
+import { AccountMenu } from './account-menu'
 import { NavLink } from './nav-link'
 
 export const Header = () => {
@@ -22,6 +23,7 @@ export const Header = () => {
         </nav>
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />
+          <AccountMenu />
         </div>
       </div>
     </header>
