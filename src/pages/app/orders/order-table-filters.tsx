@@ -32,12 +32,12 @@ export const OrdersTableFilter = () => {
 
       <Button type="submit" variant="secondary" size="xs">
         <Search />
-        Filtrar resultados
+        Filter Results
       </Button>
 
       <Button type="submit" variant="outline" size="xs">
         <X className="mr-2 h-4 w-4" />
-        Remover Filtros
+        Remove Filters
       </Button>
     </form>
   )
