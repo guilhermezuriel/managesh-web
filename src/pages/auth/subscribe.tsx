@@ -1,15 +1,17 @@
+import { useMutation } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { subscribe } from '@/api/subscribe'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 const subscribeForm = z.object({
-  storeName: z.string().min(1),
+  restaurantName: z.string().min(1),
   managerName: z.string().min(1),
   email: z.string().email(),
   phone: z.string(),
@@ -18,15 +20,29 @@ const subscribeForm = z.object({
 type SubscribeForm = z.infer<typeof subscribeForm>
 
 export const Subscribe = () => {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<SubscribeForm>()
+  const { mutateAsync: subscriber } = useMutation({
+    mutationFn: subscribe,
+  })
   async function handleSubscribe(data: SubscribeForm) {
-    console.log(data)
     try {
-      toast.success('It was send to your email a link to authenticate')
+      await subscriber({
+        restaurantName: data.restaurantName,
+        managerName: data.managerName,
+        email: data.email,
+        phone: data.phone,
+      })
+      toast.success('Your subscription was completed sucessfully', {
+        action: {
+          label: 'Login',
+          onClick: () => navigate(`/login?email=${data.email}`),
+        },
+      })
     } catch {
       toast.error('Invalid Credentials')
     }
@@ -51,7 +67,11 @@ export const Subscribe = () => {
           <form className="space-y-4" onSubmit={handleSubmit(handleSubscribe)}>
             <div className="space-y-2">
               <Label htmlFor="storeName">Your store name</Label>
-              <Input id="storeName" type="text" {...register('storeName')} />
+              <Input
+                id="storeName"
+                type="text"
+                {...register('restaurantName')}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="managerName">Your name</Label>
@@ -75,7 +95,7 @@ export const Subscribe = () => {
             </Button>
           </form>
           <p className="px-6 text-center text-sm leading-relaxed text-muted-foreground">
-            Upon completition, you agree with our{' '}
+            Upon subscription, you agree with our{' '}
             <a href="" className="underline">
               terms
             </a>{' '}
