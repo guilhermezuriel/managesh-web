@@ -1,10 +1,11 @@
 import { api } from '@/lib/axios'
 
 interface GetProfileResponse {
-  id: string
   name: string
+  id: string
   createdAt: Date | null
   updatedAt: Date | null
+  description: string | null
   managerId: string | null
 }
 
