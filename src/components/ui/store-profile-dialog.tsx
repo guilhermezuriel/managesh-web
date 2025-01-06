@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DialogClose } from '@radix-ui/react-dialog'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -34,6 +34,7 @@ export const StoreProfileContent = () => {
     queryFn: getManagedRestaurant,
     staleTime: Infinity,
   })
+  const queryClient = useQueryClient()
   const {
     register,
     handleSubmit,
@@ -47,6 +48,16 @@ export const StoreProfileContent = () => {
   })
   const { mutateAsync: updateProfileFn } = useMutation({
     mutationFn: updateProfile,
+    onSuccess(_, { name, description }) {
+      const cache = queryClient.getQueryData(['managed-restaurant'])
+      if (cache) {
+        queryClient.setQueryData(['managed-restaurant'], {
+          ...cache,
+          name,
+          description,
+        })
+      }
+    },
   })
   async function handleUpdateProfile(data: StorageProfileSchame) {
     try {
