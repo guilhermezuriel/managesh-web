@@ -116,9 +116,11 @@ export const StoreProfileContent = () => {
               Cancel
             </Button>
           </DialogClose>
-          <Button type="submit" variant="sucess" disabled={isSubmitting}>
-            Save
-          </Button>
+          <DialogClose asChild>
+            <Button type="submit" variant="sucess" disabled={isSubmitting}>
+              Save
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </form>
     </DialogContent>
