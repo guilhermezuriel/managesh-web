@@ -1,12 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DialogClose } from '@radix-ui/react-dialog'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { getManagedRestaurant } from '@/api/get-manage-restaurant'
+import {
+  GetManagedProfileResponse,
+  getManagedRestaurant,
+} from '@/api/get-manage-restaurant'
 import { updateProfile } from '@/api/update-profile'
 import {
   DialogContent,
@@ -23,7 +25,7 @@ import { Textarea } from './textarea'
 
 const storageProfileSchema = z.object({
   name: z.string().min(1),
-  description: z.string(),
+  description: z.string().nullable(),
 })
 
 type StorageProfileSchame = z.infer<typeof storageProfileSchema>
@@ -48,17 +50,32 @@ export const StoreProfileContent = () => {
   })
   const { mutateAsync: updateProfileFn } = useMutation({
     mutationFn: updateProfile,
-    onSuccess(_, { name, description }) {
-      const cache = queryClient.getQueryData(['managed-restaurant'])
-      if (cache) {
-        queryClient.setQueryData(['managed-restaurant'], {
-          ...cache,
-          name,
-          description,
-        })
+    onMutate({ name, description }) {
+      const { cached } = updateManagedStoreCache({ name, description })
+      return { previousProfileCached: cached }
+    },
+    onError(_, __, context) {
+      if (context?.previousProfileCached) {
+        updateManagedStoreCache(context.previousProfileCached)
       }
     },
   })
+  function updateManagedStoreCache({
+    name,
+    description,
+  }: StorageProfileSchame) {
+    const cached = queryClient.getQueryData<GetManagedProfileResponse>([
+      'managed-restaurant',
+    ])
+    if (cached) {
+      queryClient.setQueryData(['managed-restaurant'], {
+        ...cached,
+        name,
+        description,
+      })
+    }
+    return { cached }
+  }
   async function handleUpdateProfile(data: StorageProfileSchame) {
     try {
       await updateProfileFn({ name: data.name, description: data.description })
