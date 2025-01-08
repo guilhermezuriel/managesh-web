@@ -44,7 +44,6 @@ export function Orders() {
       return prev
     })
   }
-  console.log(data)
   return (
     <>
       <Helmet title="Orders" />

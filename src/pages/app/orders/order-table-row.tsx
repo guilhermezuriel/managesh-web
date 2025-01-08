@@ -5,6 +5,7 @@ import { OrdersResponse } from '@/api/get-orders'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
+import { formatPrice } from '@/lib/utils'
 
 import { OrderDetails } from './order-details'
 import { OrderStatus } from './order-status'
@@ -25,7 +26,7 @@ export const OrderTableRow = ({ order }: OrderResponseProps) => {
             </Button>
           </DialogTrigger>
           <DialogContent>
-            <OrderDetails />
+            <OrderDetails orderId={order.orderId} />
           </DialogContent>
         </Dialog>
       </TableCell>
@@ -39,12 +40,7 @@ export const OrderTableRow = ({ order }: OrderResponseProps) => {
         <OrderStatus status={order.status} />
       </TableCell>
       <TableCell>{order.customerName}</TableCell>
-      <TableCell>
-        {order.total.toLocaleString('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        })}
-      </TableCell>
+      <TableCell>{formatPrice(order.total)}</TableCell>
       <TableCell>
         <Button variant="ghost" size="xs">
           <ArrowRight className="h-3 w-3" /> Aprovar
