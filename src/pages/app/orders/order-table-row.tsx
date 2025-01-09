@@ -47,7 +47,11 @@ export const OrderTableRow = ({ order }: OrderResponseProps) => {
         </Button>
       </TableCell>
       <TableCell>
-        <Button variant="ghost" size="xs">
+        <Button
+          disabled={!['pending', 'processing'].includes(order.status)}
+          variant="ghost"
+          size="xs"
+        >
           <X className="h-3 w-3" /> Cancelar
         </Button>
       </TableCell>
