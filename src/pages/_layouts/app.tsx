@@ -2,7 +2,8 @@ import { isAxiosError } from 'axios'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-import { Header } from '@/components/ui/header'
+import { AppSidebar } from '@/components/ui/app-sidebar'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { api } from '@/lib/axios'
 
 export const AppLayout = () => {
@@ -29,10 +30,13 @@ export const AppLayout = () => {
   }, [navigate])
   return (
     <div className="flex min-h-screen flex-col antialiased">
-      <Header />
-      <div className="p8 ml-5 mr-5 flex flex-1 flex-col gap-4 pt-6">
-        <Outlet />
-      </div>
+      <SidebarProvider>
+        <AppSidebar />
+        <div className="p8 ml-5 mr-5 flex flex-1 flex-col gap-4 pt-6">
+          <SidebarTrigger />
+          <Outlet />
+        </div>
+      </SidebarProvider>
     </div>
   )
 }

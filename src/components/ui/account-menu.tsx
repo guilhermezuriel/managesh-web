@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { Building, ChevronDown, LogOut } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
-import { getManagedRestaurant } from '@/api/get-manage-restaurant'
 import { getProfile } from '@/api/get-profile'
 import { logoutUser } from '@/api/logout'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
@@ -26,12 +25,6 @@ export const AccountMenu = () => {
     queryFn: getProfile,
     staleTime: Infinity,
   })
-  const { data: managedRestaurant, isLoading: isLoadingManagedRestaurant } =
-    useQuery({
-      queryKey: ['managed-restaurant'],
-      queryFn: getManagedRestaurant,
-      staleTime: Infinity,
-    })
 
   const { mutateAsync: logoutUserFn, isPending: isLogoutPending } = useMutation(
     {
@@ -52,10 +45,10 @@ export const AccountMenu = () => {
             variant="outline"
             className="flex select-none items-center gap-2"
           >
-            {isLoadingManagedRestaurant ? (
+            {isLoadingProfile ? (
               <Skeleton className="h-4 w-40" />
             ) : (
-              managedRestaurant?.name
+              profile?.name
             )}
             <ChevronDown className="h-4 w-4" />
           </Button>
