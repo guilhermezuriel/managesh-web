@@ -4,6 +4,8 @@ import { ClipboardPenLine } from 'lucide-react'
 import { getOrdersDayAmount } from '@/api/get-orders-day-amount'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
+import { MetricSkeletonCard } from './metric-card-skeleton'
+
 export const DayOrdersAmountCard = () => {
   const { data: dayOrdersAmount } = useQuery({
     queryKey: ['metrics', 'day-orders-amount'],
@@ -18,7 +20,7 @@ export const DayOrdersAmountCard = () => {
         <ClipboardPenLine />
       </CardHeader>
       <CardContent className="space-y-1">
-        {dayOrdersAmount && (
+        {dayOrdersAmount ? (
           <>
             <span className="text-2xl font-bold tracking-tight">
               {dayOrdersAmount.amount.toLocaleString('en-US')}
@@ -36,6 +38,8 @@ export const DayOrdersAmountCard = () => {
               {'  '} compared to yesterday
             </p>
           </>
+        ) : (
+          <MetricSkeletonCard />
         )}
       </CardContent>
     </Card>

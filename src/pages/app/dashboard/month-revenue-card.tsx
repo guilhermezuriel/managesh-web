@@ -5,6 +5,8 @@ import { getMonthRevenue } from '@/api/get-month-revenue'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatPrice } from '@/lib/utils'
 
+import { MetricSkeletonCard } from './metric-card-skeleton'
+
 export const MonthRevenueCard = () => {
   const { data: monthRevenueFn } = useQuery({
     queryKey: ['metrics', 'month-revenue'],
@@ -19,7 +21,7 @@ export const MonthRevenueCard = () => {
         <DollarSign className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="space-y-1">
-        {monthRevenueFn && (
+        {monthRevenueFn ? (
           <>
             <span className="text-2xl font-bold tracking-tight">
               {formatPrice(monthRevenueFn.receipt)}
@@ -37,6 +39,8 @@ export const MonthRevenueCard = () => {
               {'  '} compared to last month
             </p>
           </>
+        ) : (
+          <MetricSkeletonCard />
         )}
       </CardContent>
     </Card>

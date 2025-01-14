@@ -4,6 +4,8 @@ import { ClipboardPenLine } from 'lucide-react'
 import { getOrdersMonthAmount } from '@/api/get-orders-month-amount'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
+import { MetricSkeletonCard } from './metric-card-skeleton'
+
 export const OrdersAmount = () => {
   const { data: monthOrdersAmountFn } = useQuery({
     queryKey: ['metrics', 'month-orders-amount'],
@@ -18,7 +20,7 @@ export const OrdersAmount = () => {
         <ClipboardPenLine />
       </CardHeader>
       <CardContent className="space-y-1">
-        {monthOrdersAmountFn && (
+        {monthOrdersAmountFn ? (
           <>
             <span className="text-2xl font-bold tracking-tight">
               {monthOrdersAmountFn.amount}
@@ -36,6 +38,8 @@ export const OrdersAmount = () => {
               {'  '} compared to last month
             </p>
           </>
+        ) : (
+          <MetricSkeletonCard />
         )}
       </CardContent>
     </Card>
