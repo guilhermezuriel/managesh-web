@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/table'
 import { formatPrice } from '@/lib/utils'
 
+import { OrderDetailsSkeleton } from './order-details-skeleton'
 import { OrderStatus } from './order-status'
 
 interface OrdersDetailsProps {
@@ -37,7 +38,7 @@ export const OrderDetails = ({ orderId }: OrdersDetailsProps) => {
         <DialogDescription>Order details</DialogDescription>
       </DialogHeader>
 
-      {order && (
+      {order ? (
         <div className="space-y-6">
           <Table>
             <TableBody>
@@ -104,6 +105,8 @@ export const OrderDetails = ({ orderId }: OrdersDetailsProps) => {
             </TableFooter>
           </Table>
         </div>
+      ) : (
+        <OrderDetailsSkeleton />
       )}
     </DialogContent>
   )
