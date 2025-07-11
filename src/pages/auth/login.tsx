@@ -24,7 +24,7 @@ export const Login = () => {
     formState: { isSubmitting },
   } = useForm<SubscribeForm>({
     defaultValues: {
-      email: searchParams.get('email') ?? '',
+      email: searchParams.get('email') ?? 'manager@email.com',
     },
   })
   const { mutateAsync: authenticate } = useMutation({
@@ -32,8 +32,9 @@ export const Login = () => {
   })
   async function handleLogin(data: SubscribeForm) {
     try {
-      await authenticate({ email: data.email })
-      toast.success('It was send to your email a link to authenticate')
+      const request = await authenticate({ email: data.email })
+      toast.success('Redirecting to authentication...')
+      window.location.replace(request.authLink)
     } catch {
       toast.error('Invalid Credentials')
     }
@@ -42,7 +43,11 @@ export const Login = () => {
     <>
       <Helmet title="Login" />
       <div className="p-8">
-        <Button asChild variant="ghost" className="absolute right-8 top-8">
+        <Button
+          asChild
+          variant="ghost"
+          className="absolute right-8 top-8 bg-zinc-800"
+        >
           <Link to="/subscribe">New store</Link>
         </Button>
         <div className="flex w-[350px] flex-col justify-center gap-6">

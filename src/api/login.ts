@@ -4,6 +4,9 @@ export interface LoginBody {
   email: string
 }
 
-export async function login({ email }: LoginBody) {
-  await api.post('/authenticate', { email })
+export async function login({
+  email,
+}: LoginBody): Promise<{ authLink: string }> {
+  const response = await api.post('/authenticate', { email })
+  return response.data
 }
